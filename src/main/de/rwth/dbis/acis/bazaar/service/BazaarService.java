@@ -115,13 +115,17 @@ public class BazaarService extends Service {
         return result;
     }
 
-    public BazaarService() throws Exception {
+    public BazaarService() {
 
         setFieldValues();
         Locale locale = new Locale(lang, country);
         Localization.getInstance().setResourceBundle(ResourceBundle.getBundle("i18n.Translation", locale));
 
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch(Exception e) {
+
+        }
 
         functionRegistrators = new ArrayList<BazaarFunctionRegistrator>();
         functionRegistrators.add(new BazaarFunctionRegistrator() {
