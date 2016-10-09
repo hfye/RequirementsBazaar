@@ -12,10 +12,13 @@ import de.rwth.dbis.acis.bazaar.service.exception.ExceptionLocation;
 import de.rwth.dbis.acis.bazaar.service.internalization.Localization;
 import de.rwth.dbis.acis.bazaar.service.security.AuthorizationManager;
 import i5.las2peer.api.Service;
+import i5.las2peer.logging.L2pLogger;
+import i5.las2peer.logging.NodeObserver;
 import i5.las2peer.restMapper.HttpResponse;
 import i5.las2peer.restMapper.MediaType;
 import i5.las2peer.restMapper.RESTMapper;
 import i5.las2peer.restMapper.annotations.ContentParam;
+import i5.las2peer.security.Context;
 import i5.las2peer.security.UserAgent;
 import io.swagger.annotations.*;
 import jodd.vtor.Vtor;
@@ -149,6 +152,7 @@ public class ProjectsResource extends Service {
                 }
             }
             Project projectToReturn = dalFacade.getProjectById(projectId);
+            L2pLogger.logEvent(NodeObserver.Event.SERVICE_CUSTOM_MESSAGE_1, Context.getCurrent().getMainAgent(), "fetched project with id " + projectId);
             Gson gson = new Gson();
             return new HttpResponse(gson.toJson(projectToReturn), HttpURLConnection.HTTP_OK);
         } catch (BazaarException bex) {
